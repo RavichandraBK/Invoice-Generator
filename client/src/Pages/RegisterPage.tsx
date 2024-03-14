@@ -43,7 +43,7 @@ const RegisterPage:React.FC = () => {
               <form onSubmit={handleSubmit} className="my-10">
                 <div className="my-5">
                   <label className="font-extrabold block font-mono">
-                    hare krishna
+                    Name
                   </label>
                   <input
                     name="name"
@@ -57,7 +57,7 @@ const RegisterPage:React.FC = () => {
                 </div>
                 <div className="my-5">
                   <label className="font-extrabold block font-mono">
-                    hare krishna
+                    Email
                   </label>
                   <input
                     name="email"
@@ -72,7 +72,7 @@ const RegisterPage:React.FC = () => {
                 </div>
                 <div className="my-5">
                   <label className="font-extrabold block font-mono">
-                    chant krishna
+                    Password
                   </label>
                   <input
                     name="password"

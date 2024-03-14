@@ -41,12 +41,12 @@ const LoginPage: React.FC = () => {
         </div>
         <div className="flex items-center justify-center divide-y-8">
           <div className="my-5 rounded-2xl border-4 border-gray-400 pr-12 pl-12 pb-5 pt-5 ">
-            <p className="text-6xl font-bold tracking-wide">Haribol</p>
+            <p className="text-6xl font-bold tracking-wide">Sign in</p>
             <div>
               <form onSubmit={handleSubmit} className="my-10">
                 <div className="my-5">
                   <label className="font-extrabold block font-mono">
-                    hare krishna
+                    Email
                   </label>
                   <input
                     name="email"
@@ -61,7 +61,7 @@ const LoginPage: React.FC = () => {
                 </div>
                 <div className="my-5">
                   <label className="font-extrabold block font-mono">
-                    chant krishna
+                    password
                   </label>
                   <input
                     name="password"
