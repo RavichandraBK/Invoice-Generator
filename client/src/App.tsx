@@ -1,5 +1,5 @@
 import LoginPage from './Pages/LoginPage'
-import { Router, Route, Routes } from 'react-router-dom'
+import {  Route, Routes } from 'react-router-dom'
 import RegisterPage from './Pages/RegisterPage'
 function App(){
   // const [count, setCount] = useState(0)
