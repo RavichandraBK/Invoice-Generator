@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import invoiceLogo from "../assets/invoiceGenLogo.png";
-const RegisterPage = () => {
+const RegisterPage:React.FC = () => {
     interface RegisterFields {
         name:string;
         email: string;
@@ -46,15 +46,14 @@ const RegisterPage = () => {
                     hare krishna
                   </label>
                   <input
-                    name="email"
+                    name="name"
                     type="text"
                     className="w-96 h-14 rounded-xl border-2 border-stone-950 p-3"
                     placeholder="Hare Krishna"
-                    onChange={handleEmail}
-                    value={register.email}
+                    onChange={(e) => setRegister(prev => ({ ...prev, [e.target.name]: e.target.value }))}
+                    value={register.name}
                   />
-                  {(error && register.email.length === 0) && <p className="text-lg font-inter text-red-600">Email is required</p>}
-                  {emailError && register.email.length>0 && <p className="text-lg font-inter text-red-600">Email is invalid</p>}
+                  {(error && register.name.length === 0) && <p className="text-lg font-inter text-red-600">Name is required</p>}
                 </div>
                 <div className="my-5">
                   <label className="font-extrabold block font-mono">
