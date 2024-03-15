@@ -1,5 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import invoiceLogo from "../assets/invoiceGenLogo.png";
+import { useNavigate } from "react-router-dom";
+import { Register } from "../apis/auth";
+import { toast } from "react-toastify";
+toast
 const RegisterPage:React.FC = () => {
     interface RegisterFields {
         name:string;
@@ -9,10 +13,12 @@ const RegisterPage:React.FC = () => {
     const [error, setError] = useState<boolean>(false);
   const [register, setRegister] = useState<RegisterFields>({ name:'', email: '', password: '' });
   const [emailError, setEmailError] = useState<boolean>(false);
-
+  const Navigate = useNavigate();
+ let invalid = false;
   const validateError = () => {
     if (register.email === '' || register.password === '' || register.name === '') {
       setError(true);
+      invalid = true;
     } else {
       setError(false);
     }
@@ -24,10 +30,26 @@ const RegisterPage:React.FC = () => {
     setRegister(prev => ({ ...prev, email: e.target.value }));
   }
 
+  const handleRegister = async()=>{
+    const userRegister = await Register(register);
+    if(userRegister && userRegister.data){
+      if(userRegister.data.message==='User already exists, kindly login'){
+        toast.warn(userRegister.data.message)
+      }
+      else{
+        toast.success(userRegister.data.message)
+        Navigate('/')
+      }
+      
+    }
+  }
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     validateError();
-    // setLogin((prev) => ({ ...prev, email: '', password: '' }))
+    if(!invalid){
+        handleRegister()
+        setRegister((prev) => ({ ...prev, name:'',email: '', password: '' }))
+    }
   }
   return (
     <>
@@ -38,7 +60,7 @@ const RegisterPage:React.FC = () => {
         </div>
         <div className="flex items-center justify-center divide-y-8">
           <div className="my-5 rounded-2xl border-4 border-gray-400 pr-12 pl-12 pb-5 pt-5 ">
-            <p className="text-6xl font-bold tracking-wide">Haribol</p>
+            <p className="text-6xl font-bold tracking-wide">Sign up</p>
             <div>
               <form onSubmit={handleSubmit} className="my-10">
                 <div className="my-5">
@@ -49,7 +71,7 @@ const RegisterPage:React.FC = () => {
                     name="name"
                     type="text"
                     className="w-96 h-14 rounded-xl border-2 border-stone-950 p-3"
-                    placeholder="Hare Krishna"
+                    placeholder="Name"
                     onChange={(e) => setRegister(prev => ({ ...prev, [e.target.name]: e.target.value }))}
                     value={register.name}
                   />
@@ -63,7 +85,7 @@ const RegisterPage:React.FC = () => {
                     name="email"
                     type="text"
                     className="w-96 h-14 rounded-xl border-2 border-stone-950 p-3"
-                    placeholder="Hare Krishna"
+                    placeholder="Email"
                     onChange={handleEmail}
                     value={register.email}
                   />
@@ -78,7 +100,7 @@ const RegisterPage:React.FC = () => {
                     name="password"
                     type="text"
                     className="w-96 h-14 rounded-xl border-2 border-stone-950 p-3"
-                    placeholder="Hare Krishna"
+                    placeholder="Password"
                     onChange={(e) => setRegister(prev => ({ ...prev, password: e.target.value }))}
                     value={register.password}
                   />
@@ -94,9 +116,9 @@ const RegisterPage:React.FC = () => {
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <p className="block">Don't have an account?</p>
-          <p className="text-2xl cursor-pointer">
-            <u>Register</u>
+          <p className="block">Already have an account?</p>
+          <p className="text-2xl cursor-pointer" onClick={()=>{Navigate('/')}}>
+            <u>Login</u>
           </p>
         </div>
       </div>

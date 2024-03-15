@@ -10,7 +10,7 @@ router.post("/login", async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const userChk = await User.findOne({ email });
     if (!userChk) {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "User not found, kindly register" });
     } else {
       const chkPassword = await bcrypt.compare(password, userChk.password);
       if (!chkPassword) res.json({ message: "Invalid credentials" });
@@ -21,6 +21,7 @@ router.post("/login", async (req: Request, res: Response) => {
         );
         res.json({
           message: `${userChk.name} logged in successfuly`,
+          name:userChk.name,
           userId: userChk._id,
           token,
         });

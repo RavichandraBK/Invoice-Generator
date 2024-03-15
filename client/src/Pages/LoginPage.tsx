@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import invoiceLogo from "../assets/invoiceGenLogo.png";
-
+import { useNavigate } from "react-router-dom";
+import { Login } from "../apis/auth";
+import { toast } from "react-toastify";
 
 interface LoginFields {
   email: string;
@@ -11,10 +13,12 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<boolean>(false);
   const [login, setLogin] = useState<LoginFields>({ email: '', password: '' });
   const [emailError, setEmailError] = useState<boolean>(false);
-
+  const Navigate = useNavigate();
+  let invalid = false;
   const validateError = () => {
     if (login.email === '' || login.password === '') {
       setError(true);
+      invalid = true;
     } else {
       setError(false);
     }
@@ -25,11 +29,26 @@ const LoginPage: React.FC = () => {
     setEmailError(!isValidEmail);
     setLogin(prev => ({ ...prev, email: e.target.value }));
   }
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async()=>{
+    const userLogin = await Login(login);
+    if(userLogin && userLogin.data){
+      if(userLogin.data.message==='Invalid credentials'){
+        toast.warn(userLogin.data.message)
+      }
+      else{
+        toast.success(userLogin.data.message)
+        Navigate('/Register')
+      }
+      
+    }
+  }
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    validateError();
-    // setLogin((prev) => ({ ...prev, email: '', password: '' }))
+   await validateError();
+    if(!invalid){
+      handleLogin();
+      setLogin((prev) => ({ ...prev, email: '', password: '' }))
+    }
   }
 
   return (
@@ -52,7 +71,7 @@ const LoginPage: React.FC = () => {
                     name="email"
                     type="text"
                     className="w-96 h-14 rounded-xl border-2 border-stone-950 p-3"
-                    placeholder="Hare Krishna"
+                    placeholder="Email"
                     onChange={handleEmail}
                     value={login.email}
                   />
@@ -67,7 +86,7 @@ const LoginPage: React.FC = () => {
                     name="password"
                     type="text"
                     className="w-96 h-14 rounded-xl border-2 border-stone-950 p-3"
-                    placeholder="Hare Krishna"
+                    placeholder="Password"
                     onChange={(e) => setLogin(prev => ({ ...prev, password: e.target.value }))}
                     value={login.password}
                   />
@@ -84,7 +103,7 @@ const LoginPage: React.FC = () => {
         </div>
         <div className="flex justify-center items-center">
           <p className="block">Don't have an account?</p>
-          <p className="text-2xl cursor-pointer">
+          <p className="text-2xl cursor-pointer" onClick={()=>{Navigate('/Register')}}>
             <u>Register</u>
           </p>
         </div>
