@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { promises } from 'dns';
 import { toast } from 'react-toastify';
 const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 const registerUrl = `${BackendUrl}/api/auth/register`;
