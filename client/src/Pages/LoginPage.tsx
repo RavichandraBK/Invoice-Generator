@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
       }
       else{
         toast.success(userLogin.data.message)
-        Navigate('/Register')
+        Navigate('/AddProduct')
       }
       
     }
