@@ -23,7 +23,7 @@ const Login = async (loginDetails: LoginFields): Promise<AxiosResponse | void> =
     if(err.response.status===404){
         toast.error(err.response.data.message)
         
-    }
+    }else
     console.log('Couldnt login, something went wrong', err);
   }
 };
